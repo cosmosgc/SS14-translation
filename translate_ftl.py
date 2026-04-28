@@ -241,7 +241,7 @@ def ensure_argos_translation(
     )
 
 
-TAG_PATTERN = re.compile(r"\[/?[a-zA-Z][^\]]*\]")
+TAG_PATTERN = re.compile(r"\\?\[/?[a-zA-Z][^\]]*\]")
 LETTER_PATTERN = re.compile(r"[A-Za-zÀ-ÿ]")
 
 
@@ -251,7 +251,7 @@ def translate_text_value(value: str, translator) -> str:
     if not LETTER_PATTERN.search(value):
         return value
 
-    parts = re.split(r"(\[/?[a-zA-Z][^\]]*\])", value)
+    parts = re.split(r"(\\?\[/?[a-zA-Z][^\]]*\])", value)
     translated_parts: list[str] = []
     for part in parts:
         if not part:
