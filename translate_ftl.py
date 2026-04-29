@@ -259,6 +259,12 @@ def translate_text_value(value: str, translator) -> str:
         if TAG_PATTERN.fullmatch(part):
             translated_parts.append(part)
             continue
+        # Keep markup/control fragments intact. Fluent can split constructs like
+        # "[color={$color}]" into text + placeables, and translating fragments
+        # such as "[color=" can corrupt the final tag layout.
+        if any(ch in part for ch in "[]{}"):
+            translated_parts.append(part)
+            continue
         if not LETTER_PATTERN.search(part):
             translated_parts.append(part)
             continue
